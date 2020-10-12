@@ -41,7 +41,7 @@
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             user.getIdToken(true).then(function(idToken) {
-                console.log('token', idToken);
+                console.log(idToken);
             });
         }
     })

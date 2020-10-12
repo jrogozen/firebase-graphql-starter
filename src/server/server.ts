@@ -8,7 +8,7 @@ type User = {
     displayName: string;
     email: string;
     phoneNumber: string;
-    roles: string[];
+    roles?: string[];
     emailVerified: boolean;
     photoUrl?: string;
     disabled: boolean;
@@ -62,14 +62,13 @@ const resolvers = {
             const results: User[] = [];
 
             snapshot.forEach((doc) => {
-                const { displayName, email, phoneNumber, roles = [], emailVerified, photoUrl, disabled } = doc.data();
+                const { displayName, email, phoneNumber, emailVerified, photoUrl, disabled } = doc.data();
 
                 const user: User = {
                     id: doc.id,
                     displayName,
                     email,
                     phoneNumber,
-                    roles,
                     emailVerified,
                     photoUrl,
                     disabled,
@@ -119,6 +118,16 @@ const resolvers = {
                 },
                 { merge: true },
             );
+
+            // temp: ensure roles are only returned for individual users
+            // they exist in a separate firestore collection so they are not queried on a user call
+            const roles = await db.collection('private-data').doc('roles').get();
+
+            if (roles.exists) {
+                const userRoles = roles.data()[uid];
+
+                if (userRoles) user.roles = userRoles;
+            }
 
             const token = await createSessionToken(idToken);
 
