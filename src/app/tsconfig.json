@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "target": "es5",
+        "importsNotUsedAsValues": "preserve",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "keyofStringsOnly": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "skipLibCheck": true,
+        "lib": [
+            "es6",
+            "dom",
+            "esnext"
+        ],
+        "resolveJsonModule": true,
+        "outDir": "./dist"
+    },
+    "include": [
+        "./index.tsx"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib",
+        "dist",
+    ]
+}
